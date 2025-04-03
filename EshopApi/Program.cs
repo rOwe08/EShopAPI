@@ -14,10 +14,20 @@ namespace EshopApi
             builder.Services.AddDbContext<EshopContext>(options =>
                 options.UseSqlite(connectionString));
 
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
             var app = builder.Build();
+            app.MapControllers();
+            
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
-            app.UseHttpsRedirection();
-
+            // app.UseHttpsRedirection();
             app.MigrateDb();
             app.Run();
         }
