@@ -5,7 +5,7 @@ namespace EshopApi.Data
 {
     public class EshopContext(DbContextOptions<EshopContext> options)  : DbContext(options)
     {
-        public DbSet<Product> Products => Set<Product>();   
+        public virtual  DbSet<Product> Products => Set<Product>();   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
