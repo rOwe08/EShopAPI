@@ -26,6 +26,7 @@ namespace EshopApi.Controllers
             var products = await _context.Products
                 .Select(p => new ProductDto
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     ImageUrl = p.ImageUrl,
                     Price = p.Price,
@@ -67,6 +68,7 @@ namespace EshopApi.Controllers
 
             return Ok(new ProductDto
             {
+                Id = product.Id,
                 Name = product.Name,
                 ImageUrl = product.ImageUrl,
                 Price = product.Price,

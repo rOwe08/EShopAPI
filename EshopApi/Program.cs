@@ -27,7 +27,6 @@ namespace EshopApi
                 app.UseSwaggerUI();
             }
 
-            // app.UseHttpsRedirection();
             app.MigrateDb();
             app.Run();
         }
