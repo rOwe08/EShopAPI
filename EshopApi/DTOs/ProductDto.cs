@@ -1,3 +1,5 @@
+using EshopApi.Entities;
+
 namespace EshopApi.DTOs
 {
     public record class ProductDto
@@ -8,5 +10,15 @@ namespace EshopApi.DTOs
         public decimal Price { get; set; }
         public string? Description { get; set; } = string.Empty;
         public int StockQuantity { get; set; }
+
+        public ProductDto(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            ImageUrl = product.ImageUrl;
+            Price = product.Price;
+            Description = product.Description;
+            StockQuantity = product.Stock;
+        }
     }
 }

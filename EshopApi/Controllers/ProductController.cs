@@ -24,15 +24,7 @@ namespace EshopApi.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
             var products = await _context.Products
-                .Select(p => new ProductDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    ImageUrl = p.ImageUrl,
-                    Price = p.Price,
-                    Description = p.Description,
-                    StockQuantity = p.Stock
-                })
+                .Select(p => new ProductDto(p))
                 .ToListAsync();
 
             return Ok(products);
@@ -66,15 +58,7 @@ namespace EshopApi.Controllers
 
             if (product == null) return NotFound();
 
-            return Ok(new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Description = product.Description,
-                StockQuantity = product.Stock
-            });
+            return Ok(new ProductDto(product));
         }
 
         /// <summary>
