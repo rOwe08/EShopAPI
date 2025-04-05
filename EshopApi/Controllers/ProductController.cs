@@ -35,7 +35,7 @@ namespace EshopApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsV2(
             [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 10)
+            [FromQuery] int pageSize = 2)
         {
             var products = await _context.Products
                 .Skip((page - 1) * pageSize)

@@ -9,7 +9,7 @@ namespace EshopApi.DTOs
         public string ImageUrl { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string? Description { get; set; } = string.Empty;
-        public int StockQuantity { get; set; }
+        public int Stock { get; set; }
 
         public ProductDto(Product product)
         {
@@ -18,7 +18,7 @@ namespace EshopApi.DTOs
             ImageUrl = product.ImageUrl;
             Price = product.Price;
             Description = product.Description;
-            StockQuantity = product.StockQuantity;
+            Stock = product.Stock;
         }
     }
 }

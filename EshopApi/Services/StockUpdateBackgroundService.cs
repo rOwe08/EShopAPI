@@ -28,7 +28,7 @@ namespace EshopApi.Services
 
                 if (product != null)
                 {
-                    product.StockQuantity = message.NewStock;
+                    product.Stock = message.NewStock;
                     await context.SaveChangesAsync(stoppingToken);
                 }
             }
