@@ -18,7 +18,7 @@ namespace EshopApi.DTOs
             ImageUrl = product.ImageUrl;
             Price = product.Price;
             Description = product.Description;
-            StockQuantity = product.Stock;
+            StockQuantity = product.StockQuantity;
         }
     }
 }
