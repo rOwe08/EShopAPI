@@ -33,7 +33,7 @@ A RESTful API for managing e-shop products.
 
 ## Running Unit Tests
 
-1. Clone the repository(if you didn't before:  
+1. Clone the repository(if you didn't before):  
    ```bash  
    git clone https://github.com/yourusername/EShopAPI.git
    
