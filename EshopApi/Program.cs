@@ -1,11 +1,12 @@
 using EshopApi.Data;
 using EshopApi.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.OpenApi.Models; 
-using System.Reflection;
 using Microsoft.AspNetCore.Diagnostics;
+using Asp.Versioning.ApiExplorer;
+using Asp.Versioning;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.OpenApi.Models;
 
 namespace EshopApi
 {
@@ -28,41 +29,23 @@ namespace EshopApi
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
-            });
-
-            builder.Services.AddVersionedApiExplorer(options =>
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            }).AddApiExplorer(options =>
             {
-                options.GroupNameFormat = "'v'VVV";
+                options.GroupNameFormat = "'v'V";
                 options.SubstituteApiVersionInUrl = true;
             });
 
             // Swagger
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Eshop API", Version = "v1" });
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "Eshop API", Version = "v2" });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddSingleton<IStockUpdateQueue, StockUpdateQueue>();
             builder.Services.AddHostedService<StockUpdateBackgroundService>();
 
             var app = builder.Build();
 
-            // Middleware
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>  
-                {  
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Eshop API v1");  
-                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Eshop API v2");  
-                    c.RoutePrefix = string.Empty;
-                });  
-            }
+            var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
             app.UseExceptionHandler("/error");
             app.Map("/error", (HttpContext context) => 
@@ -70,8 +53,23 @@ namespace EshopApi
                 var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
                 return Results.Problem(title: exception?.Message);
             });
-            
+
+            // Middleware
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    foreach (var description in provider.ApiVersionDescriptions)
+                    {
+                        var url = $"/swagger/{description.GroupName}/swagger.json";
+                        options.SwaggerEndpoint(url, $"Eshop API {description.GroupName}");
+                    }
+                });
+            }
+
             app.MapControllers();
+
             app.Run();
         }
     }

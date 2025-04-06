@@ -35,10 +35,11 @@ namespace EshopApi.Services
                             await context.SaveChangesAsync(stoppingToken);
                         }
                     }  
-                    catch (Exception ex)  
-                    {  
-                        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);  
-                    }  
+                    catch (Exception)
+                    {
+                        // Logging or whatever
+                        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+                    }
                 }  
         }
     }

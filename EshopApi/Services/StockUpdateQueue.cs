@@ -19,7 +19,7 @@ namespace EshopApi.Services
         {
             await _signal.WaitAsync(cancellationToken);
             _messages.TryDequeue(out var message);
-            return message;
+            return message!;
         }
     }
 }

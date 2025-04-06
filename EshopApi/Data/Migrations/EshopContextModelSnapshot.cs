@@ -36,12 +36,12 @@ namespace EshopApi.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StockQuantity")
+                    b.Property<int>("Stock")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
@@ -51,16 +51,16 @@ namespace EshopApi.Data.Migrations
                             ImageUrl = "someUrl1",
                             Name = "iPhone 15",
                             Price = 999.99m,
-                            StockQuantity = 0
+                            Stock = 0
                         },
                         new
                         {
                             Id = 2,
                             Description = "Samsung smartphone",
-                            ImageUrl = "someUrl2",
+                            ImageUrl = "someUrl3",
                             Name = "Samsung Galaxy S24",
                             Price = 899.99m,
-                            StockQuantity = 0
+                            Stock = 0
                         },
                         new
                         {
@@ -69,7 +69,7 @@ namespace EshopApi.Data.Migrations
                             ImageUrl = "someUrl3",
                             Name = "Google Pixel 8",
                             Price = 799.99m,
-                            StockQuantity = 0
+                            Stock = 0
                         });
                 });
 #pragma warning restore 612, 618
