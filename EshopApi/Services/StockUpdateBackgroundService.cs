@@ -17,21 +17,29 @@ namespace EshopApi.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                using var scope = _services.CreateScope();
-                var queue = scope.ServiceProvider.GetRequiredService<IStockUpdateQueue>();
-                var context = scope.ServiceProvider.GetRequiredService<EshopContext>();
 
-                var message = await queue.DequeueAsync(stoppingToken);
-                var product = await context.Products.FindAsync(message.ProductId);
+                while (!stoppingToken.IsCancellationRequested)  
+                {  
+                    try  
+                    {  
+                        using var scope = _services.CreateScope();
+                        var queue = scope.ServiceProvider.GetRequiredService<IStockUpdateQueue>();
+                        var context = scope.ServiceProvider.GetRequiredService<EshopContext>();
 
-                if (product != null)
-                {
-                    product.Stock = message.NewStock;
-                    await context.SaveChangesAsync(stoppingToken);
-                }
-            }
+                        var message = await queue.DequeueAsync(stoppingToken);
+                        var product = await context.Products.FindAsync(message.ProductId);
+
+                        if (product != null)
+                        {
+                            product.Stock = message.NewStock;
+                            await context.SaveChangesAsync(stoppingToken);
+                        }
+                    }  
+                    catch (Exception ex)  
+                    {  
+                        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);  
+                    }  
+                }  
         }
     }
 }

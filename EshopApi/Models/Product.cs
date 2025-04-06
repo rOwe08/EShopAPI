@@ -1,5 +1,5 @@
 
-namespace EshopApi.Entities
+namespace EshopApi.Models
 {
     public class Product
     {

@@ -5,10 +5,11 @@ public class PagedResponse<T>
     public int PageSize { get; set; }
     public int TotalCount { get; set; }
 
-    public PagedResponse(IEnumerable<T> data, int page, int pageSize)
-    {
-        Data = data;
-        Page = page;
-        PageSize = pageSize;
-    }
+    public PagedResponse(IEnumerable<T> data, int page, int pageSize, int totalCount)  
+    {  
+        Data = data;  
+        Page = page;  
+        PageSize = pageSize;  
+        TotalCount = totalCount;  
+    }  
 }

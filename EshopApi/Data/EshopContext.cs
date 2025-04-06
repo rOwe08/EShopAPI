@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using EshopApi.Entities;
+using EshopApi.Models;
 
 namespace EshopApi.Data
 {

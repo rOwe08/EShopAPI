@@ -1,6 +1,5 @@
 using EshopApi.Data;
 using EshopApi.DTOs;
-using EshopApi.Entities;
 using EshopApi.Services;
 using EshopApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -35,15 +34,19 @@ namespace EshopApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsV2(
             [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 2)
+            [FromQuery] int pageSize = 10)
         {
+            if (page < 1 || pageSize < 1)  
+                return BadRequest("Page and pageSize must be >= 1");  
+
             var products = await _context.Products
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(p => new ProductDto(p))
                 .ToListAsync();
 
-            return Ok(new PagedResponse<ProductDto>(products, page, pageSize));
+            var totalCount = await _context.Products.CountAsync();  
+            return Ok(new PagedResponse<ProductDto>(products, page, pageSize, totalCount));
         }
 
         /// <summary>
