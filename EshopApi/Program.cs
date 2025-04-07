@@ -56,6 +56,12 @@ namespace EshopApi
             // Middleware
             if (app.Environment.IsDevelopment())
             {
+                // Db reset
+                // using var scope = app.Services.CreateScope();
+                // var db = scope.ServiceProvider.GetRequiredService<EshopContext>();
+                // db.Database.EnsureDeleted();
+                // db.Database.EnsureCreated();
+
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
