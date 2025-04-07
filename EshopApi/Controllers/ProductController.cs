@@ -4,7 +4,6 @@ using EshopApi.Services;
 using EshopApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Asp.Versioning.ApiExplorer;
 using Asp.Versioning;
 
 namespace EshopApi.Controllers

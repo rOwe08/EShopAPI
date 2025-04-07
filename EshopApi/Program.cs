@@ -6,7 +6,6 @@ using Asp.Versioning.ApiExplorer;
 using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.OpenApi.Models;
 
 namespace EshopApi
 {
